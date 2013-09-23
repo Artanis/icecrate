@@ -1,3 +1,6 @@
 bottle==0.12-dev
-distribute==0.6.38
+distribute==0.7.3
+dobbin==0.3
 pyxdg==0.25
+transaction==1.4.1
+zope.interface==4.0.5
