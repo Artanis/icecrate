@@ -1,0 +1,3 @@
+# Icecrate is not currently on PyPI.
+# Please install from the GitHub repository.
+pip install https://github.com/Artanis/icecrate/tarball/master
