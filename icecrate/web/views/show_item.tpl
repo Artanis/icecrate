@@ -1,6 +1,6 @@
 % rebase("base.tpl", subtitle=(item.get('name', upc)))
 <article>
-  <h2>{{item.get('item_name', upc)}}</h2>
+  <h2>{{item.get('name', upc)}}</h2>
   <form method="POST" action="/items/{{upc}}">
     <input type="text" name="name" id="item_name" placeholder="Name" value="{{item.get('name', '')}}">
     <br/>
