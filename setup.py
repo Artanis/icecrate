@@ -9,11 +9,7 @@ setup(
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     install_requires=[
-        # primary requires
-        "dobbin", "pyxdg", "bottle>=0.12-dev",
-        
-        # dobbin requires
-        "transaction", "zope.interface"],
+        "bottle>=0.12-dev", "redis"],
 
     dependency_links=[
         # get bottle 0.12 from github
