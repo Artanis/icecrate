@@ -1,57 +1,57 @@
 from operator import itemgetter
 
 import bottle
-import transaction
-from dobbin.persistent import checkout, PersistentDict
 
-from icecrate.database import inventory
+from icecrate import database
 
 app = bottle.Bottle()
+
+itemkeyfmt = "icecrate:items:{0}".format
+itemtagfmt = "icecrate:tags:{0}".format
 
 @app.route("/")
 @bottle.view("list_items")
 def list_items():
-    # print("="*40)
-    # for upc, row in inventory.items():
-    #     try:
-    #         print(upc, dict(row))
-    #     except ValueError:
-    #         print(upc, row)
-    #     print("="*40)
+    # get all item keys
+    item_ids = database.smembers("icecrate:items.all")
 
-    items = (dict(row, upc=upc) for upc, row in inventory.items())
-    return {"items": sorted(items, key=itemgetter("name"))}
+    # resolve keys
+    items = list(map(database.hgetall, item_ids))
+
+    # sort items by name
+    items = sorted(items, key=itemgetter("name"))
+
+    return {"items": items}
 
 @app.route("/<upc>")
 @bottle.view("show_item")
 def show_item(upc):
-    try:
-        item = dict(inventory[upc])
-        in_db = True
-    except KeyError:
-        item = dict()
-        in_db = False
+    item = database.hgetall(itemkeyfmt(upc))
 
-    return dict(item=item, upc=upc, in_db=in_db)
+    return dict(item=item, upc=upc)
 
 @app.route("/<upc>", method="POST")
 def update_item(upc):
-    try:
-        item = inventory[upc]
-        checkout(item)
-    except KeyError:
-        item = PersistentDict()
+    # get the fields from the html form, and merge the upc into them
+    fields = dict(bottle.request.forms, upc=upc)
 
-    name, tags, qty = map(bottle.request.forms.get, ("name", "tags", "quantity"))
+    # split tags and filter empty strings
+    tags = (tag.strip() for tag in fields.get("tags", "").split(","))
+    tags = set(filter(None, tags))
+    for tag in tags:
+        # add tag to set of all tags
+        database.sadd("icecrate:tags.all", tag)
 
-    # print(repr(upc), repr(name), repr(tags), repr(qty))
-    
-    item["name"] = name
-    item["tags"] = tags
-    item["quantity"] = qty
+        # add item key to set of items in the tag
+        database.sadd(itemtagfmt(tag), itemkeyfmt(upc))
 
-    checkout(inventory)
-    inventory[upc] = item
-    transaction.commit()
+    # apply uniqueness to the tags field
+    fields["tags"] = ", ".join(tags)
+
+    # insert item into database
+    database.hmset(itemkeyfmt(upc), fields)
+
+    # add item to set of all items
+    database.sadd("icecrate:items.all", itemkeyfmt(upc))
 
     bottle.redirect("/items/{0}".format(upc))

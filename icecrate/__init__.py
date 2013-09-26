@@ -1,8 +1,10 @@
 import os.path
 
-from xdg import BaseDirectory
+import redis
 
-DATA_HOME = BaseDirectory.save_data_path("icecrate")
-# CONFIG_HOME = BaseDirectory.save_config_path("icecrate")
+# TEMP CONFIG
+HOST = "localhost"
+PORT = 6379
+DB   = 0
 
-DB_LOCATION = os.path.join(DATA_HOME, "database.dobbin")
+database = redis.StrictRedis(host=HOST, port=PORT, db=DB, decode_responses=True)
