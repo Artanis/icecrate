@@ -27,6 +27,15 @@ h2 {
   font-weight: bold;
 }
 
+.tag {
+  display: inline-block;
+  margin: .25em;
+  padding: 0.25em 0.25em 0.25em 1em;
+  border-corner-shape: bevel;
+  border-radius: 1em 0 0 1em;
+  border: 1px solid black;
+}
+
 /* layout */
 .wrapper {}
 article {

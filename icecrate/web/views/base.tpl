@@ -27,6 +27,7 @@
         <ul>
           <li><a class="zxing" href="/items/{CODE}">Scan</a></li>
           <li><a href="/items">All Items</a></li>
+          <li><a href="/tags">All Tags</a></li>
           <li><a href="/about">About</a></li>
           <li><a href="/help">Help</a></li>
           <li class="to_top"><a href="#home">Top</a></li>

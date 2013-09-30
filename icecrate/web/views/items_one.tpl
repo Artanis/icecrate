@@ -1,8 +1,9 @@
-% rebase("base.tpl", subtitle=(item.get('name', upc)))
-% setdefault("in_db", False)
+% rebase("base.tpl", subtitle=(item.get('name', item.get('upc'))))
+% setdefault("in_db", item.get('name', None) is not None)
 <article>
-  <h2>{{item.get('name', upc)}}</h2>
-  <form method="POST" action="/items/{{upc}}">
+  <h2>{{item.get('name', item.get('upc'))}}</h2>
+  % include("tags_inline_list.tpl", tags=tags)
+  <form method="POST" action="/items/{{item.get('upc')}}">
     <input type="text" name="name" id="item_name" placeholder="Name" value="{{item.get('name', '')}}" tabindex="1">
     <br/>
     <input type="text" id="tags" name="tags" placeholder="Descriptive tags" value="{{item.get('tags', '')}}" tabindex="2">

@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-__VERSION__ = "0.1.2-dev"
+__VERSION__ = "0.1.3-dev"
 
 setup(
     # package information
@@ -20,5 +20,4 @@ setup(
     author_email="artanis.00@gmail.com",
     license="BSD 2-clause",
     url="https://github.com/Artanis/icecrate"
-
-    )
+    ) 
