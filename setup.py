@@ -1,11 +1,19 @@
 from setuptools import setup, find_packages
 
-__VERSION__ = "0.1.3-dev"
+def get_version():
+    version_file = "icecrate/_version.py"
+    loc = {}
+    with open(version_file, "r") as f_version:
+        code = compile(f_version.read(), "_version.py", "exec")
+        exec(code, {}, loc)
+
+    return loc.get("__version__")
 
 setup(
     # package information
     name="icecrate",
-    version=__VERSION__,
+    version=get_version(),
+
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     install_requires=[
