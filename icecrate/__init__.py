@@ -15,3 +15,6 @@ DB   = 0
 database = redis.StrictRedis(host=HOST, port=PORT, db=DB, decode_responses=True)
 database.set(keygen("icecrate", meta="version"), __version__)
 database.set(keygen("icecrate", meta="dbversion"), __db_version__)
+
+import icecrate.items
+import icecrate.tags

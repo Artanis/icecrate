@@ -7,5 +7,5 @@ def split_version(vs):
             pass
         yield v
 
-__version__ = "0.1.3-dev"
+__version__ = "0.1.4-dev"
 __version_info__ = tuple(split_version(__version__))
