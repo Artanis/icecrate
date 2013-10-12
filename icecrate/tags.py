@@ -17,7 +17,10 @@ def by_item_id(item_id):
     """
     item = items.by_item_id(item_id)
     item_tags = _split_tags(item.get("tags", ""))
-    yield from map(by_tag_id, item_tags)
+    
+    # yield from map(by_tag_id, item_tags)
+    for item in map(by_tag_id, item_tags):
+        yield item
 
 def by_tag_id(tag_id):
     """Retrieves tag information.
