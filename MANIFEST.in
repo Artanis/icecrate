@@ -1,2 +1,3 @@
 recursive-include icecrate/web/views  *.tpl
 recursive-include icecrate/web/static *.js *.css *.png
+recursive-include icecrate/web/fragments *.tpl
