@@ -7,10 +7,13 @@ from icecrate.utils import keygen
 
 itemkey = partial(keygen, "icecrate", "items")
 
-def all_items():
+def all_items(): # pragma: no cover
+    """Retrieve set of all item ids from the database.
+
+    """
     return database.smembers(itemkey(meta="all"))
 
-def by_item_id(item_id):
+def by_item_id(item_id): # pragma: no cover
     """Retrieve an item from the database by it's id (UPC)
 
     """

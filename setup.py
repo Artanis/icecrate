@@ -17,7 +17,11 @@ setup(
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     install_requires=[
-        "bottle>=0.12-dev", "redis", "PyDispatcher"],
+        "bottle>=0.12-dev",
+        "redis",
+        "PyDispatcher",
+        "Whoosh",
+        "pyxdg"],
 
     dependency_links=[
         # get bottle 0.12 from github

@@ -8,7 +8,7 @@ from icecrate.utils import keygen
 
 tagkey = partial(keygen, "icecrate", "tags")
 
-def all_tags():
+def all_tags(): # pragma: no cover
     return database.smembers(tagkey(meta="all"))
 
 def by_item_id(item_id):
@@ -19,17 +19,14 @@ def by_item_id(item_id):
     item_tags = _split_tags(item.get("tags", ""))
     
     # yield from map(by_tag_id, item_tags)
-    for item in map(by_tag_id, item_tags):
-        yield item
+    for tag in map(by_tag_id, item_tags):
+        yield tag
 
-def by_tag_id(tag_id):
+def by_tag_id(tag_id): # pragma: no cover
     """Retrieves tag information.
 
     """
-    tag = database.hgetall(tagkey(tag_id))
-    members = database.smembers(tagkey(tag_id, meta="all"))
-
-    return (tag, members)
+    return database.hgetall(tagkey(tag_id))
 
 def _split_tags(tags_field):
     """Split a tag string and return a set of tag IDs.
@@ -54,11 +51,6 @@ def handle_item_preupdate(item):
         # save tag name
         database.hset(tagkey(tag), "name", tag)
 
-        # add item upc to tag members
-        database.sadd(tagkey(tag, meta="all"), item.get("upc"))
-
         # add tag to set of all tags
         database.sadd(tagkey(meta="all"), tag)
-
-dispatcher.connect(handle_item_preupdate,
-    signal="icecrate.items.preupdate")
+dispatcher.connect(handle_item_preupdate, signal="icecrate.items.preupdate")

@@ -2,5 +2,5 @@
 <article>
   <h2>{{taginfo.get("name")}}</h2>
   <h3>{{len(members)}} Members</h3>
-  % include("items_list.tpl", items=members)
+  % include("search_list.tpl", q=taginfo.get("name"), results=members)
 </article>

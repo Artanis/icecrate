@@ -11,7 +11,7 @@ app = bottle.Bottle()
 
 @app.route("/")
 @bottle.view("items_all.tpl")
-def list_items():
+def list_items(): # pragma: no cover
     # get all item keys
     item_ids = icecrate.items.all_items()
 
@@ -27,12 +27,10 @@ def list_items():
 @bottle.view("items_one.tpl")
 def show_item(upc):
     item = icecrate.items.by_item_id(upc)
-    item_tags = icecrate.tags.by_item_id(upc)
 
-    item_tags = sorted(item_tags, key=lambda a: len(a[1]), reverse=True)
-    print(item_tags)
+    print(item.get("tags"))
 
-    return {"item": dict(item, upc=upc), "tags": item_tags}
+    return {"item": dict(item, upc=upc)}
 
 @app.route("/<upc>", method="POST")
 def update_item(upc):

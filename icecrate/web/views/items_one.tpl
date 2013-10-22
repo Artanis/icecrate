@@ -2,7 +2,6 @@
 % setdefault("in_db", item.get('name', None) is not None)
 <article>
   <h2>{{item.get('name', item.get('upc'))}}</h2>
-  % include("tags_inline_list.tpl", tags=tags)
   <form method="POST" action="/items/{{item.get('upc')}}">
     <input type="text" name="name" id="item_name" placeholder="Name" value="{{item.get('name', '')}}" tabindex="1">
     <br/>

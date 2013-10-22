@@ -16,17 +16,16 @@ def list_tags():
 
     print(tags)
 
-    tags = sorted(tags, key=lambda a: len(a[1]), reverse=True)
+    tags = sorted(tags, key=itemgetter("name"), reverse=True)
 
     return {"tags": tags}
 
 @app.route("/<tag_id>")
 @bottle.view("tags_one.tpl")
 def show_tag(tag_id):
-    taginfo, members = icecrate.tags.by_tag_id(tag_id)
+    taginfo = icecrate.tags.by_tag_id(tag_id)
 
-    members = map(icecrate.items.by_item_id, members)
+    # get tag members from indexer
+    members = list(icecrate.search.query("tags:{0}".format(tag_id)))
 
-    members = sorted(members, key=itemgetter("name"))
-
-    return {"taginfo": taginfo, "members": members}
+    return {"taginfo": taginfo , "members": members}
