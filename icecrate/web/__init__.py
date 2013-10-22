@@ -33,6 +33,11 @@ def about():
 def static_files(filename):
     return bottle.static_file(filename, STATIC_ROOT)
 
+@app.error(500)
+@bottle.view("error_5xx.tpl")
+def internal_server_error(error):
+    return {"error": error}
+
 app.mount("/items", items.app)
 app.mount("/search", search.app)
 app.mount("/tags", tags.app)
